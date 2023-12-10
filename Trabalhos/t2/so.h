@@ -4,8 +4,13 @@
 // so
 // o sistema operacional
 
-
 typedef struct so_t so_t;
+typedef struct processo_t processo_t;
+typedef struct registros_t registros_t;
+typedef struct pendencia_t pendencia_t;
+typedef struct Fila Fila;
+typedef struct Node Node;
+typedef struct metricas_t metricas_t;
 
 #include "memoria.h"
 #include "mmu.h"
