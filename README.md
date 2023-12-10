@@ -56,6 +56,20 @@ Ver [aqui](https://www.ufsm.br/ementario/disciplinas/ELC1080/).
 |   19 |  17out | gerência de memória
 |   20 |  19out | sistemas de arquivos
 |   21 |  31out | sistemas de arquivos
+|   22 |   7nov | sistemas de arquivos
+|   23 |   9nov | entrada e saída
+|   24 |  14nov | entrada e saída
+|   25 |  16nov | entrada e saída
+|   26 |  21nov | entrada e saída
+|   27 |  23nov | deadlocks
+|   28 |  27nov | deadlocks **Atenção, esta segunda tem aulas de quinta**
+|   -- |  28nov | **Atenção, esta terça tem aulas de sexta**
+|   29 |  30nov | 
+|   -- |   5dez | **Atenção, esta terça tem aulas de sexta**
+|   30 |   7dez | apresentações/conversas
+|   -- |  12dez | apresentações/conversas **Atenção, esta terça tem aulas de sábado**
+|      |  14dez | 
+|      |  19dez | exame
 
 ## Trabalhos, provas, exercícios
 
@@ -64,6 +78,7 @@ Ver [aqui](https://www.ufsm.br/ementario/disciplinas/ELC1080/).
 |    T0 | [simulador de CPU](Trabalhos/t0)
 |    T1 | [processos](Trabalhos/t1)
 |    T2 | [memória virtual](Trabalhos/t2)
+| final | [entrega final](final.md) até 6/12 para apr. 7/12, até 10/12 para apr. 12/12
 
 Os trabalhos podem ser desenvolvidos em grupos de até 2 alunos, desde que todos participem. A avaliação é individual.
 
