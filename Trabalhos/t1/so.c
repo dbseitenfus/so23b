@@ -68,6 +68,7 @@ struct processo_t
   registros_t estado_cpu;
   float prio;
   int t_exec_inicio;
+  int t_criacao;
   bool livre;
 };
 
@@ -212,7 +213,7 @@ static void exibe_metricas(so_t *self);
 static int calcula_total_de_preempcoes(metricas_t metricas);
 static void log_processo_estado(so_t *self, int i, estado_processo estado);
 static void log_ocioso(so_t *self);
-static void log_tempo_execucao_processo(so_t *self, int i);
+static void log_tempo_execucao_processo(so_t *self, int t_criacao, int i);
 static void log_tempo_total_processo_estado(so_t *self, int i, estado_processo estado);
 
 so_t *so_cria(cpu_t *cpu, mem_t *mem, console_t *console, relogio_t *relogio)
@@ -405,7 +406,6 @@ static bool verifica_estado_es(so_t *self, int id)
 static void desbloqueia_processo(so_t *self, int pid)
 {
   int i = recupera_posicao_processo_por_pid(self, pid);
-  log_tempo_execucao_processo(self,i);
   altera_estado_processo(self, i, PRONTO);
   log_tempo_total_processo_estado(self, i, PRONTO);
   enqueue_processo(self, &self->fila, pid);   
@@ -545,7 +545,7 @@ static err_t so_trata_irq_reset(so_t *self)
 {
   inicializa_tabela_processos(self);
   // coloca um programa na memória
-  int ender = so_carrega_programa(self, "init.maq");
+  int ender = so_carrega_programa(self, "/Users/danielseitenfus/Documents/GitHub/so23b/Trabalhos/t1/init.maq");
   if (ender != 100)
   {
     console_printf(self->console, "SO: problema na carga do programa inicial");
@@ -586,8 +586,6 @@ static err_t so_trata_irq_relogio(so_t *self)
   // rearma o interruptor do relógio e reinicializa o timer para a próxima interrupção
   rel_escr(self->relogio, 3, 0); // desliga o sinalizador de interrupção
   rel_escr(self->relogio, 2, INTERVALO_INTERRUPCAO);
-  int i = recupera_posicao_processo_atual(self);
-  self->tabela_processos[i].t_exec_inicio++;
   atualiza_quantum_counter(self);
   log_ocioso(self);
   return ERR_OK;
@@ -842,6 +840,7 @@ static int cria_processo(so_t *self, int ender_carga, int pid_processo_pai)
   novo_processo.livre = false;
   novo_processo.prio = 0.5;
   novo_processo.t_exec_inicio = 0;
+  novo_processo.t_criacao = rel_agora(self->relogio);
   adiciona_processo_na_tabela(self, novo_processo);
 
   //Adiciona o processo no fim da fila
@@ -891,7 +890,6 @@ static int adiciona_processo_na_tabela(so_t *self, processo_t novo_processo)
   int posicao = recupera_posicao_livre_tabela_de_processos(self);
   if (posicao != -1) {
     self->tabela_processos[posicao] = novo_processo;
-    log_tempo_execucao_processo(self,posicao);
     log_processo_estado(self, posicao, PRONTO);
     log_tempo_total_processo_estado(self, posicao, PRONTO);
   }
@@ -947,6 +945,8 @@ static void mata_processo(so_t *self, int pid)
     self->tabela_processos[i].livre = true;
     self->tabela_processos[i].estado_processo = BLOQUEADO;
     self->quantum_counter = 0;
+
+    log_tempo_execucao_processo(self,  self->tabela_processos[i].t_criacao, i);
 
     if(pid == 1) {
       exibe_metricas(self);
@@ -1147,8 +1147,8 @@ static void log_tempo_total_processo_estado(so_t *self, int i, estado_processo e
   self->metricas_t.tempo_total_processo_estado[i][estado] = rel_agora(self->relogio)  - self->tabela_processos[i].t_exec_inicio * INTERVALO_INTERRUPCAO;
 }
 
-static void log_tempo_execucao_processo(so_t *self, int i){
-  self->metricas_t.tempo_execucao_processo[i] = rel_agora(self->relogio)  - self->tabela_processos[i].t_exec_inicio * INTERVALO_INTERRUPCAO;
+static void log_tempo_execucao_processo(so_t *self, int t_criacao, int i){
+  self->metricas_t.tempo_execucao_processo[i] = rel_agora(self->relogio) - t_criacao;
 }
 
 // relogio - instrucoes executadas
