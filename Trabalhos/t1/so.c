@@ -545,7 +545,7 @@ static err_t so_trata_irq_reset(so_t *self)
 {
   inicializa_tabela_processos(self);
   // coloca um programa na memória
-  int ender = so_carrega_programa(self, "/Users/danielseitenfus/Documents/GitHub/so23b/Trabalhos/t1/init.maq");
+  int ender = so_carrega_programa(self, "init.maq");
   if (ender != 100)
   {
     console_printf(self->console, "SO: problema na carga do programa inicial");

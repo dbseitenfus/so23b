@@ -57,9 +57,9 @@ morre
          desv morre
 
 msg_ini  string 'init inicializando...'
-prog1    string '/Users/danielseitenfus/Documents/GitHub/so23b/Trabalhos/t1/p1.maq'
-prog2    string '/Users/danielseitenfus/Documents/GitHub/so23b/Trabalhos/t1/p2.maq'
-prog3    string '/Users/danielseitenfus/Documents/GitHub/so23b/Trabalhos/t1/p3.maq'
+prog1    string 'p1.maq'
+prog2    string 'p2.maq'
+prog3    string 'p3.maq'
 pid1     espaco 1
 pid2     espaco 1
 pid3     espaco 1
